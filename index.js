@@ -360,23 +360,23 @@ const retrieveAllCards = async () => {
 
 const mapCardData = (cards) => (
   cards.map((card) => {
-    const { name, setName, set, cmc, manaCost, cardType, type, text, rarity, colors, colorIdentity, imageUrl, flavorText, power, toughness} = card
-    const removedNewLineText =  typeof flavorText === 'string' ? flavorText.replace(/\n|\r/g, "") : flavorText
-    const removedNewLineFlavorText = typeof text === 'string' ? text.replace(/\n|\r/g, "") : text;
+    const { name, setName, set, cmc, manaCost, type, types, text, rarity, colors, colorIdentity, imageUrl, flavor, power, toughness} = card
+    const removedNewLineText =  typeof text === 'string' ? text.replace(/\n|\r/g, "") : text
+    const removedNewLineFlavor = typeof flavor === 'string' ? flavor.replace(/\n|\r/g, "") : flavor;
     return {
       name,
       setName,
       set,
       cmc,
       manaCost,
-      cardType,
       type,
+      types,
       text: removedNewLineText,
       rarity,
       colors,
       colorIdentity,
       imageUrl,
-      flavorText: removedNewLineFlavorText,
+      flavor: removedNewLineFlavor,
       power,
       toughness
     }
@@ -384,7 +384,7 @@ const mapCardData = (cards) => (
 )
 
 const appendDataToExcel = (data) => {
-  let formmattedData = 'name'+'\t'+'setName'+'\t'+'set'+'\t'+'setNumber'+'\t'+'cmc'+'\t'+'manaCost'+'\t'+'cardType'+'\t'+'type'+'\t'+'text'+'\t'+'rarity'+'\t'+'colors'+'\t'+'colorIdentity'+'\t'+'imageUrl'+'\t'+'flavorText'+'\t'+'power'+'\t'+'toughness'+'\n';
+  let formmattedData = 'name'+'\t'+'setName'+'\t'+'set'+'\t'+'setNumber'+'\t'+'cmc'+'\t'+'manaCost'+'\t'+'type'+'\t'+'types'+'\t'+'text'+'\t'+'rarity'+'\t'+'colors'+'\t'+'colorIdentity'+'\t'+'imageUrl'+'\t'+'flavor'+'\t'+'power'+'\t'+'toughness'+'\n';
   for (i = 0; i < data.length; i++) {
     const {
       name,
@@ -392,19 +392,19 @@ const appendDataToExcel = (data) => {
       set,
       cmc,
       manaCost,
-      cardType,
       type,
+      types,
       text,
       rarity,
       colors,
       colorIdentity,
       imageUrl,
-      flavorText,
+      flavor,
       power,
       toughness
     } = data[i];
     const setNumber = setNumberMap.get(set)
-    formmattedData=formmattedData+name+'\t'+setName+'\t'+set+'\t'+setNumber+'\t'+cmc+'\t'+manaCost+'\t'+cardType+'\t'+type+'\t'+text+'\t'+rarity+'\t'+colors+'\t'+colorIdentity+'\t'+imageUrl+'\t'+flavorText+'\t'+power+'\t'+toughness+'\n';
+    formmattedData=formmattedData+name+'\t'+setName+'\t'+set+'\t'+setNumber+'\t'+cmc+'\t'+manaCost+'\t'+type+'\t'+types+'\t'+text+'\t'+rarity+'\t'+colors+'\t'+colorIdentity+'\t'+imageUrl+'\t'+flavor+'\t'+power+'\t'+toughness+'\n';
   }
   fs.appendFile('cards.xls', formmattedData, (err) => {
     if (err) console.log(err);
