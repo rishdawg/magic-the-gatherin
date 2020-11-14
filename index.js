@@ -3,7 +3,7 @@ const fs = require('fs');
 
 
 const baseUrl = 'https://api.magicthegathering.io/v1/cards';
-const BATCH_SIZE = 1;
+const BATCH_SIZE = 10;
 
 const batchCall = async (batches, cards=[]) => {
     if(batches.length > 0) {
@@ -24,8 +24,8 @@ const batchCall = async (batches, cards=[]) => {
       return cards;
     }
   }
-const setNumberMap = new Map()
-  setNumberMap.set('LEA', '1');
+ const setNumberMap = new Map()
+   setNumberMap.set('LEA', '1');
   setNumberMap.set('LEB', '2');
   setNumberMap.set('2ED', '3');
   setNumberMap.set('ARN', '4');
@@ -37,7 +37,7 @@ const setNumberMap = new Map()
   setNumberMap.set('4ED', '10');
   setNumberMap.set('ICE', '11');
   setNumberMap.set('CHR', '12');
-  setNumberMap.set('REN', '13');
+  //setNumberMap.set('REN', '13');
   setNumberMap.set('HML', '14');
   setNumberMap.set('ALL', '15');
   setNumberMap.set('MIR', '16');
@@ -323,18 +323,41 @@ const setNumberMap = new Map()
   setNumberMap.set('CMR', '296');
   setNumberMap.set('TSR', '297');
 
-
-
 const retrieveAllCards = async () => {
-  const setList = 
-    'LEA,LEB,2ED,ARN,ATQ,3ED,LEG,DRK,FEM,4ED,ICE,CHR,REN,HML,ALL,MIR,VIS,5ED,POR,WTH,TMP,STH,EXO,P02,UGL,USG,ATH,ULG,6ED,PTK,UDS,S99,MMQ,BRB,NEM,S00,PCY,INV,BTD,PLS,7ED,APC,ODY,DKM,TOR,JUD,ONS,LGN,SCG,8ED,MRD,DST,5DN,CHK,UNH,BOK,SOK,9ED,PSAL,RAV,GPT,DIS,CSP,CST,TSP,TSB,PLC,FUT,10E,P10E,LRW,DD1,MOR,SHM,EVE,DRB,ALA,DD2,CON,DDC,ARB,M10,PM10,V09,HOP,OHOP,ZEN,PZEN,DDD,H09,WWK,PWWK,DDE,ROE,PROE,DPA,ARC,OARC,M11,PM11,V10,DDF,SOM,PSOM,PD2,PS11,MBS,PMBS,DDG,NPH,PNPH,CMD,PCMD,OCMD,M12,PM12,V11,DDH,ISD,PISD,PD3,DKA,PDKA,DDI,AVR,PAVR,PC2,OPC2,M13,PM13,V12,DDJ,RTR,PRTR,CM1,OCM1,TD2,GTC,PGTC,DDK,DGM,PDGM,MMA,M14,PM14,V13,DDL,THS,PTHS,THP1,TFTH,C13,OC13,TBTH,BNG,THP2,PBNG,DDM,JOU,THP3,PJOU,TDAG,MD1,CNS,VMA,M15,CP1,PM15,V14,DDN,KTK,PKTK,C14,OC14,EVG,JVC,DVD,GVL,FRF,CP2,PFRF,UGIN,DDO,DTK,PDTK,MM2,ORI,V15,DDP,BFZ,PBFZ,EXP,C15,OC15,OGW,POGW,DDQ,W16,SOI,PSOI,EMA,EMN,PEMN,V16,CN2,DDR,KLD,MPS,PKLD,C16,OC16,PCA,OPCA,AER,PAER,MM3,DDS,W17,AKH,PAKH,MP2,CMA,E01,OE01,HOU,PHOU,C17,OC17,XLN,PXLN,DDT,IMA,E02,V17,UST,PUST,RIX,PRIX,A25,DDU,DOM,PDOM,CM2,BBD,PBBD,SS1,GS1,M19,PM19,C18,OC18,GRN,PGRN,GK1,GNT,,UMA,PUMA,RNA,PRNA,GK2,WAR,PWAR,MED,MH1,PMH1,SS2,M20,PM20,C19,OC19,ELD,PELD,MB1,FMB1,CMB1,GN2,SLD,PSLD,THB,PTHB,UND,IKO,PIKO,C20,OC20,SLU,SS3,M21,PM21,JMP,FJMP,2XM,ZNR,ZNE,ZNC,CMR,TSR'
+   const setList = 
+    //Sets broken into chunks  
+      //'LEA,LEB,2ED,ARN,ATQ,3ED,LEG,DRK,FEM,4ED,ICE,CHR'
+      'HML,ALL,MIR,VIS,5ED,POR,WTH,TMP,STH,EXO,P02,UGL,USG'
+      //'ATH,ULG,6ED,PTK,UDS,S99,MMQ,BRB,NEM,S00,PCY,INV,BTD'
+      //'PLS,7ED,APC,ODY,DKM,TOR,JUD,ONS,LGN,SCG,8ED,MRD,DST'
+      //'5DN,CHK,UNH,BOK,SOK,9ED,PSAL,RAV,GPT,DIS,CSP,CST,TSP'
+      //'TSB,PLC,FUT,10E,P10E,LRW,DD1,MOR,SHM,EVE,DRB,ALA,DD2'
+      //'CON,DDC,ARB,M10,PM10,V09,HOP,OHOP,ZEN,PZEN,DDD,H09,WWK'
+      //'PWWK,DDE,ROE,PROE,DPA,ARC,OARC,M11,PM11,V10,DDF,SOM'
+      //'PSOM,PD2,PS11,MBS,PMBS,DDG,NPH,PNPH,CMD,PCMD,OCMD,M12'
+      //'PM12,V11,DDH,ISD,PISD,PD3,DKA,PDKA,DDI,AVR,PAVR,PC2'
+      //'OPC2,M13,PM13,V12,DDJ,RTR,PRTR,CM1,OCM1,TD2,GTC,PGTC'
+      //'DDK,DGM,PDGM,MMA,M14,PM14,V13,DDL,THS,PTHS,THP1,TFTH'
+      //'C13,OC13,TBTH,BNG,THP2,PBNG,DDM,JOU,THP3,PJOU,TDAG'
+      //'MD1,CNS,VMA,M15,CP1,PM15,V14,DDN,KTK,PKTK,C14,OC14'
+      //'EVG,JVC,DVD,GVL,FRF,CP2,PFRF,UGIN,DDO,DTK,PDTK,MM2'
+      //'ORI,V15,DDP,BFZ,PBFZ,EXP,C15,OC15,OGW,POGW,DDQ,W16'
+      //'SOI,PSOI,EMA,EMN,PEMN,V16,CN2,DDR,KLD,MPS,PKLD,C16'
+      //'OC16,PCA,OPCA,AER,PAER,MM3,DDS,W17,AKH,PAKH,MP2,CMA'
+      //'E01,OE01,HOU,PHOU,C17,OC17,XLN,PXLN,DDT,IMA,E02,V17'
+      //'UST,PUST,RIX,PRIX,A25,DDU,DOM,PDOM,CM2,BBD,PBBD,SS1'
+      //'GS1,M19,PM19,C18,OC18,GRN,PGRN,GK1,GNT,,UMA,PUMA,RNA'
+      //'PRNA,GK2,WAR,PWAR,MED,MH1,PMH1,SS2,M20,PM20,C19,OC19'
+      //'ELD,PELD,MB1,FMB1,CMB1,GN2,SLD,PSLD,THB,PTHB,UND,IKO'
+      //'PIKO,C20,OC20,SLU,SS3,M21,PM21,JMP,FJMP,2XM,ZNR,ZNE,ZNC,CMR,TSR'
+   //all sets 
+      //'LEA,LEB,2ED,ARN,ATQ,3ED,LEG,DRK,FEM,4ED,ICE,CHR,HML,ALL,MIR,VIS,5ED,POR,WTH,TMP,STH,EXO,P02,UGL,USG,ATH,ULG,6ED,PTK,UDS,S99,MMQ,BRB,NEM,S00,PCY,INV,BTD,PLS,7ED,APC,ODY,DKM,TOR,JUD,ONS,LGN,SCG,8ED,MRD,DST,5DN,CHK,UNH,BOK,SOK,9ED,PSAL,RAV,GPT,DIS,CSP,CST,TSP,TSB,PLC,FUT,10E,P10E,LRW,DD1,MOR,SHM,EVE,DRB,ALA,DD2,CON,DDC,ARB,M10,PM10,V09,HOP,OHOP,ZEN,PZEN,DDD,H09,WWK,PWWK,DDE,ROE,PROE,DPA,ARC,OARC,M11,PM11,V10,DDF,SOM,PSOM,PD2,PS11,MBS,PMBS,DDG,NPH,PNPH,CMD,PCMD,OCMD,M12,PM12,V11,DDH,ISD,PISD,PD3,DKA,PDKA,DDI,AVR,PAVR,PC2,OPC2,M13,PM13,V12,DDJ,RTR,PRTR,CM1,OCM1,TD2,GTC,PGTC,DDK,DGM,PDGM,MMA,M14,PM14,V13,DDL,THS,PTHS,THP1,TFTH,C13,OC13,TBTH,BNG,THP2,PBNG,DDM,JOU,THP3,PJOU,TDAG,MD1,CNS,VMA,M15,CP1,PM15,V14,DDN,KTK,PKTK,C14,OC14,EVG,JVC,DVD,GVL,FRF,CP2,PFRF,UGIN,DDO,DTK,PDTK,MM2,ORI,V15,DDP,BFZ,PBFZ,EXP,C15,OC15,OGW,POGW,DDQ,W16,SOI,PSOI,EMA,EMN,PEMN,V16,CN2,DDR,KLD,MPS,PKLD,C16,OC16,PCA,OPCA,AER,PAER,MM3,DDS,W17,AKH,PAKH,MP2,CMA,E01,OE01,HOU,PHOU,C17,OC17,XLN,PXLN,DDT,IMA,E02,V17,UST,PUST,RIX,PRIX,A25,DDU,DOM,PDOM,CM2,BBD,PBBD,SS1,GS1,M19,PM19,C18,OC18,GRN,PGRN,GK1,GNT,,UMA,PUMA,RNA,PRNA,GK2,WAR,PWAR,MED,MH1,PMH1,SS2,M20,PM20,C19,OC19,ELD,PELD,MB1,FMB1,CMB1,GN2,SLD,PSLD,THB,PTHB,UND,IKO,PIKO,C20,OC20,SLU,SS3,M21,PM21,JMP,FJMP,2XM,ZNR,ZNE,ZNC,CMR,TSR'
   const urlWithSet = `${baseUrl}?set=${setList}`
   const totalCardCount = await axios.get(urlWithSet).then(({headers}) =>  headers['total-count']);
   const totalPages = Math.ceil(totalCardCount/100);
 
   const urls = [];
  
-
   for (pageNum = 1; pageNum <= totalPages; pageNum++) {
      urls.push(`${baseUrl}?page=${pageNum}&set=${setList}`);
   }
@@ -360,9 +383,12 @@ const retrieveAllCards = async () => {
 
 const mapCardData = (cards) => (
   cards.map((card) => {
-    const { name, setName, set, cmc, manaCost, type, types, text, rarity, colors, colorIdentity, imageUrl, flavor, power, toughness} = card
-    const removedNewLineText =  typeof text === 'string' ? text.replace(/\n|\r/g, "") : text
+    const { name, setName, set, cmc, manaCost, type, types, text, rarity, colors, colorIdentity, imageUrl, flavor, power, toughness, artist} = card;
+    const removedNewLineText =  typeof text === 'string' ? text.replace(/\n|\r/g, "") : text;
     const removedNewLineFlavor = typeof flavor === 'string' ? flavor.replace(/\n|\r/g, "") : flavor;
+//    const removeUndefinedToughness = typeof toughness === 'string' ? toughness.replace("undefined"/g,"") : toughness
+//    const removeUndefinedToughness = typeof toughness === 'string' ? toughness.replace('undefined'/g,"") : toughness
+//    const removeUndefinedToughness = typeof toughness === 'string' ? toughness.replace(/undefined/g,"") : toughness
     return {
       name,
       setName,
@@ -378,13 +404,14 @@ const mapCardData = (cards) => (
       imageUrl,
       flavor: removedNewLineFlavor,
       power,
-      toughness
+      toughness,//: removeUndefinedToughness
+      artist
     }
   })
 )
 
 const appendDataToExcel = (data) => {
-  let formmattedData = 'name'+'\t'+'setName'+'\t'+'set'+'\t'+'setNumber'+'\t'+'cmc'+'\t'+'manaCost'+'\t'+'type'+'\t'+'types'+'\t'+'text'+'\t'+'rarity'+'\t'+'colors'+'\t'+'colorIdentity'+'\t'+'imageUrl'+'\t'+'flavor'+'\t'+'power'+'\t'+'toughness'+'\n';
+  let formmattedData = 'name'+'\t'+'setName'+'\t'+'set'+'\t'+'setNumber'+'\t'+'cmc'+'\t'+'manaCost'+'\t'+'type'+'\t'+'types'+'\t'+'text'+'\t'+'rarity'+'\t'+'colors'+'\t'+'colorIdentity'+'\t'+'imageUrl'+'\t'+'flavor'+'\t'+'power'+'\t'+'toughness'+'\t'+'artist'+'\t'+'\n';
   for (i = 0; i < data.length; i++) {
     const {
       name,
@@ -401,10 +428,11 @@ const appendDataToExcel = (data) => {
       imageUrl,
       flavor,
       power,
-      toughness
+      toughness,
+      artist
     } = data[i];
     const setNumber = setNumberMap.get(set)
-    formmattedData=formmattedData+name+'\t'+setName+'\t'+set+'\t'+setNumber+'\t'+cmc+'\t'+manaCost+'\t'+type+'\t'+types+'\t'+text+'\t'+rarity+'\t'+colors+'\t'+colorIdentity+'\t'+imageUrl+'\t'+flavor+'\t'+power+'\t'+toughness+'\n';
+    formmattedData=formmattedData+name+'\t'+setName+'\t'+set+'\t'+setNumber+'\t'+cmc+'\t'+manaCost+'\t'+type+'\t'+types+'\t'+text+'\t'+rarity+'\t'+colors+'\t'+colorIdentity+'\t'+imageUrl+'\t'+flavor+'\t'+power+'\t'+toughness+'\t'+artist+'\t'+'\n';
   }
   fs.appendFile('cards.xls', formmattedData, (err) => {
     if (err) console.log(err);
